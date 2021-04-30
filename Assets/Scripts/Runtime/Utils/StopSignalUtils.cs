@@ -17,10 +17,10 @@ namespace Assets.Scripts.Runtime
                 nextSSD = session.actualSSD - Const.STEP_SSD;
 
             // Clamp the value
-            if (session.actualSSD > Const.MAX_SSD)
+            if (session.actualSSD >= Const.MAX_SSD)
                 nextSSD = Const.MAX_SSD;
 
-            if (session.actualSSD < Const.MIN_SSD)
+            if (session.actualSSD <= Const.MIN_SSD)
                 nextSSD = Const.MIN_SSD;
 
             Debug.Log("Nbr of true in session: " + session.nbrOfTrue + " + Nbr of false in session: " + session.nbrOfFalse + " / Nbr of steps: " + session.nbrOfStep);

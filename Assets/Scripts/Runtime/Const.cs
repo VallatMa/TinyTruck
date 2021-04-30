@@ -6,7 +6,7 @@ namespace Assets.Scripts.Runtime
 
         // Basics timing SSD
         public static float SPAWN_DELAY = 2f;
-        public static float RESPONSE_DELAY = 0.6f;
+        public static float RESPONSE_DELAY = 1.5f;
         public static float STEP_SSD = 0.05f;
         public static float BASE_SSD = 0.25f;
         public static float MIN_SSD = 0.1f;
@@ -30,7 +30,7 @@ namespace Assets.Scripts.Runtime
         // Stimulus images
         public static int NBR_IMAGE = 64;
         public static int NBR_STIMULUS_TRAINING = 6;
-        public static int NBR_STIMULUS_BLOCK = 64; // 64
+        public static int NBR_STIMULUS_BLOCK = 64; 
 
         // Houses & Road spanning
         public static float SPAWN_DELAY_HOUSE = 1f;

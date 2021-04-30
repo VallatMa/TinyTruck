@@ -1,6 +1,7 @@
 ﻿using System;
 using Tiny2D;
 using Unity.Entities;
+using Unity.Tiny;
 
 namespace Assets.Scripts.Runtime
 
@@ -31,14 +32,9 @@ namespace Assets.Scripts.Runtime
         {
             string r = "";
 
-            if (sessionNum == 0) {
-                r += "{"
-                    + @"""date""" + ": " + (char)34 + DateTime.Now.Day + "." + DateTime.Now.Month + "." + DateTime.Now.Year + (char)34 + ", "
-                    + @"""sessions""" + ": " + "[";
-            }
-
             r += "{"
                 + @"""sessionName""" + ": " + (char)34 + sessionName + (char)34 + ", "
+                + @"""date""" + ": " + (char)34 + DateTime.Now.Day + "." + DateTime.Now.Month + "." + DateTime.Now.Year + (char)34 + ", "
                 + @"""isFoodLeft""" + ": " + ToStringUtils.GetBool(session.isFoodLeft) + ", "
                 + @"""steps""" + ": " + "[";
 
@@ -50,12 +46,7 @@ namespace Assets.Scripts.Runtime
 
             r += "]}";
 
-            if (sessionNum != 3) { // If it's not the last session add ,
-                r += ",";
-            } else {
-                r += "]}";
-            }
-
+            Debug.Log(r);
             return r.ToString();
         }
 

@@ -89,7 +89,6 @@ namespace Assets.Scripts.Runtime
 
                             // Save the Session
                             string json = ToStringUtils.FormatSession(s, sessionName, steps, sstHolder.nbrSessionDone);
-                            Debug.Log(json);
                             FileUtils.SaveInput(json);
 
                             // Increment nbr of session done
@@ -103,16 +102,6 @@ namespace Assets.Scripts.Runtime
 
                             SetSingleton(sstHolder);
                             SetSingleton(sstIterator);
-
-                            // Simule a click to go to the next Scene
-                            /* TODO add new entity to change the scene
-                            var activeInput = GetSingleton<ActiveInput>();
-
-                            activeInput.value = new ClickOnButton() {
-                                isButton = 5 // 5 is for Switching from GamePlay to something else
-                            };
-
-                            SetSingleton(activeInput);*/
 
                             EntityManager.AddComponent(changeSceneTarget, typeof(SceneTransitionOutTag));
                         }

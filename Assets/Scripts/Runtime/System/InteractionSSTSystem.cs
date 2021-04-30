@@ -44,10 +44,12 @@ namespace Assets.Scripts.Runtime
 
                 int buttonId = ai.value.isButton;
                 if (buttonId != 0) {
+
+                    // Do the shake screen
+                    EntityManager.AddComponent(shakeTarget, typeof(ActivatedTag));
+
                     if (sstIterator.isWaitingForClickOrTimeOut) {
 
-                        // Do the shake screen
-                        EntityManager.AddComponent(shakeTarget, typeof(ActivatedTag));
 
                         sstIterator.actualStep.timeEndStimulus = timeEndStimulus;
                         sstIterator.actualStep.reactionTime = timeEndStimulus - sstIterator.actualStep.timeStartStimulus;
@@ -93,10 +95,11 @@ namespace Assets.Scripts.Runtime
                             // Adjust timing of SSD
                             if (sstIterator.actualStep.isStopSignal) {
 
+                                float newSSD = StopSignalUtils.GetNextSSD(session, false);
                                 // Set to the step the ssd used
-                                sstIterator.actualStep.ssd = session.actualSSD;
+                                sstIterator.actualStep.ssd = newSSD;
                                 // Get the next SSD for the session
-                                session.actualSSD = StopSignalUtils.GetNextSSD(session, false);
+                                session.actualSSD = newSSD;
                             }
                         }
                     }
