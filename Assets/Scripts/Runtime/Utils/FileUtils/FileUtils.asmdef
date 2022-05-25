@@ -1,7 +1,10 @@
 {
     "name": "FileUtils",
     "references": [],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor",
+        "WebGL"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

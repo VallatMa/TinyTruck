@@ -26,6 +26,7 @@ public class FileUtils
 {
     public static void SaveInput(string uinputrl)
     {
+        Debug.Log($"Save the input: {input}");
     }
 }
 

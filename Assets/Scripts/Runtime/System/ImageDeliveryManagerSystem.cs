@@ -29,7 +29,7 @@ namespace Tiny2D
                     EntityQuery eq = GetEntityQuery(ComponentType.ReadOnly<ImagePrefabTag>());
                     var listImg = eq.ToEntityArray(Allocator.TempJob);
 
-                    if (sstIterator.isWaitingForClickOrTimeOut) {
+                    if (sstIterator.isWaitingForClickOrTimeOut) { // an image should be display because the stimulus is actif
 
                         // Add on top of the waiting the image of the food/nfood
                         if (listImg.Length == 0) {
@@ -81,7 +81,7 @@ namespace Tiny2D
 
         private Entity GetImage(ImageManager iM, int num, bool isFood)
         {
-            Debug.Log("Image num: " + num + ", isFood: " + isFood);
+            //Debug.Log("Image num: " + num + ", isFood: " + isFood);
             Entity r = new Entity();
             if (isFood) {
                 switch (num) {
@@ -149,6 +149,12 @@ namespace Tiny2D
                     case 62: r = iM.F62; break;
                     case 63: r = iM.F63; break;
                     case 64: r = iM.F64; break;
+                    case 65: r = iM.F65; break;
+                    case 66: r = iM.F66; break;
+                    case 67: r = iM.F67; break;
+                    case 68: r = iM.F68; break;
+                    case 69: r = iM.F69; break;
+                    case 70: r = iM.F70; break;
 
                 }
             } else {
@@ -217,6 +223,12 @@ namespace Tiny2D
                     case 62: r = iM.FN62; break;
                     case 63: r = iM.FN63; break;
                     case 64: r = iM.FN64; break;
+                    case 65: r = iM.FN65; break;
+                    case 66: r = iM.FN66; break;
+                    case 67: r = iM.FN67; break;
+                    case 68: r = iM.FN68; break;
+                    case 69: r = iM.FN69; break;
+                    case 70: r = iM.FN70; break;
                 }
             }
 

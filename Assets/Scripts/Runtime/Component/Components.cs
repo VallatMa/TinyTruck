@@ -8,29 +8,6 @@ namespace Tiny2D
         public float2 position;
     }
 
-    // The struct that hold all the prefab for the houses
-    public struct SpawnerHolder : IComponentData
-    {
-        public Entity roadPrefab;
-
-        public Entity house1PrefabL;
-        public Entity house2PrefabL;
-        public Entity house3PrefabL;
-        public Entity house4PrefabL;
-        public Entity house5PrefabL;
-
-        public Entity house1PrefabR;
-        public Entity house2PrefabR;
-        public Entity house3PrefabR;
-        public Entity house4PrefabR;
-        public Entity house5PrefabR;
-
-        public Entity nature1Prefab;
-        public Entity nature2Prefab;
-        public Entity nature3Prefab;
-        public Entity nature4Prefab;
-    }
-
     // The struct that hold all the prefab for the feedback
     public struct FeedbackHolder : IComponentData
     {
@@ -40,7 +17,7 @@ namespace Tiny2D
 
     public struct ClickOnButton : IComponentData
     {
-        public int isButton; // 0 = no button, 1 = leftArrow, 2 = rightArrow
+        public sbyte isButton; // 0 = no button, 1 = leftArrow, 2 = rightArrow
     }
 
     public struct ActiveInput : IComponentData
@@ -56,13 +33,13 @@ namespace Tiny2D
     // The struct used for a step
     public struct StepStimulus : IBufferElementData
     {
-        public int index;
+        public sbyte index;
         public bool isFood;
         public bool isStopSignal;
         public bool isSuccess;
         public bool isTimeOut;
         public bool isAnswered;
-        public int indexImg;
+        public sbyte indexImg;
         public float timeStartStimulus;
         public float timeEndStimulus;
         public float reactionTime;
@@ -76,10 +53,12 @@ namespace Tiny2D
     {
         public bool isSessionActive;
         public bool isSessionDone;
-        public int activeStep;
-        public int nbrOfStep;
-        public int nbrOfFalse;
-        public int nbrOfTrue;
+        public short activeStep;
+        public sbyte nbrOfStep;
+        public sbyte nbrOfFalse;
+        public sbyte nbrOfTrue;
+        public sbyte nbrOfFalseStop;
+        public sbyte nbrOfTrueStop;
         public bool isFoodLeft;
         public float actualSSD;
     }
@@ -87,7 +66,7 @@ namespace Tiny2D
     // The struct that hold all the sessions for the game
     public struct SSTHolder : IComponentData
     {
-        public int nbrSessionDone;
+        public sbyte nbrSessionDone;
         public Entity stepsTraining1; // 1
         public Entity stepsBlock1;    // 2
         public Entity stepsTraining2; // 3
@@ -105,5 +84,6 @@ namespace Tiny2D
 
         public StepStimulus actualStep;
         public Entity actualSessionEntity;
+        public SceneName actualScene;
     }
 }

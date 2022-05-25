@@ -6,14 +6,16 @@ using Unity.Tiny;
 
 namespace Assets.Scripts.Runtime
 {
+    // Setup Game System initialise the lists of stimulus used during the whole game
     [UpdateInGroup(typeof(InitializationSystemGroup))]
     public class SetupGameSystem : ComponentSystem
     {
         private Unity.Mathematics.Random randomGenerator;
 
-        private int nbrOfStopSignal;
-        private NativeList<int> nbrFood;
-        private NativeList<int> nbrNonFood;
+        private sbyte nbrOfStopSignalTraining;
+        private sbyte nbrOfStopSignalBlock;
+        private NativeList<sbyte> nbrFood;
+        private NativeList<sbyte> nbrNonFood;
 
         protected override void OnStartRunning()
         {
@@ -62,10 +64,8 @@ namespace Assets.Scripts.Runtime
             DynamicBuffer<StepStimulus> bufST1 = EntityManager.GetBuffer<StepStimulus>(entityST1);
             DynamicBuffer<StepStimulus> bufST2 = EntityManager.GetBuffer<StepStimulus>(entityST2);
 
-            this.PopulateSession(false, stepsBlock1, bufSB1);
-            this.PopulateSession(false, stepsBlock2, bufSB2);
-            this.PopulateSession(true, stepsTraining1, bufST1);
-            this.PopulateSession(true, stepsTraining2, bufST2);
+            this.PopulateSession(stepsTraining1, stepsBlock1, bufST1, bufSB1 );
+            this.PopulateSession(stepsTraining2, stepsBlock2, bufST2, bufSB2 );
 
             sstHolder.nbrSessionDone = 0;
             sstHolder.stepsBlock1 = entitySB1;
@@ -81,7 +81,6 @@ namespace Assets.Scripts.Runtime
 
             SetSingleton(sstHolder);
             SetSingleton(sstIterator);
-
         }
 
         // Create an empty session
@@ -99,63 +98,73 @@ namespace Assets.Scripts.Runtime
         }
 
         // Initialize a session
-        protected void PopulateSession(bool isTraining, SSTSession session, DynamicBuffer<StepStimulus> buf)
+        protected void PopulateSession(SSTSession sessionTraining, SSTSession sessionBlock, DynamicBuffer<StepStimulus> bufTraining, DynamicBuffer<StepStimulus> bufTBlock)
         {
-            /*.nbrFood = new List<int>();
-            this.nbrNonFood = new List<int>();*/
-            this.nbrFood = new NativeList<int>(Const.NBR_IMAGE, Allocator.TempJob);
-            this.nbrNonFood = new NativeList<int>(Const.NBR_IMAGE, Allocator.TempJob);
+            this.nbrFood = new NativeList<sbyte>(Const.NBR_IMAGE, Allocator.TempJob);
+            this.nbrNonFood = new NativeList<sbyte>(Const.NBR_IMAGE, Allocator.TempJob);
 
+            StepStimulus[] stepsTraining;
+            StepStimulus[] stepsBlock;
 
-            StepStimulus[] steps; //= new List<StepStimulus>();
+            sessionTraining.activeStep = 0;
+            sessionBlock.activeStep = 0;
 
-            session.activeStep = 0;
+            sessionTraining.nbrOfStep = Const.NBR_STIMULUS_TRAINING;
+            stepsTraining = new StepStimulus[Const.NBR_STIMULUS_TRAINING];
 
-            if (isTraining) {
-                session.nbrOfStep = Const.NBR_STIMULUS_TRAINING;
-                steps = new StepStimulus[Const.NBR_STIMULUS_TRAINING];
-            } else {
-                session.nbrOfStep = Const.NBR_STIMULUS_BLOCK;
-                steps = new StepStimulus[Const.NBR_STIMULUS_BLOCK];
-            }
+            sessionBlock.nbrOfStep = Const.NBR_STIMULUS_BLOCK;
+            stepsBlock = new StepStimulus[Const.NBR_STIMULUS_BLOCK];
 
-            this.nbrOfStopSignal = session.nbrOfStep / 4;
+            this.nbrOfStopSignalTraining = (sbyte)(sessionTraining.nbrOfStep / 4);
+            this.nbrOfStopSignalBlock = (sbyte)(sessionBlock.nbrOfStep / 4);
 
-            // Fill the two list with int from 1 to 64
-            for (int i = 1; i <= Const.NBR_IMAGE; i++) {
+            // Fill the two list with int from 1 to 70
+            for (sbyte i = 1; i <= Const.NBR_IMAGE; i++) {
                 nbrFood.Add(i);
                 nbrNonFood.Add(i);
             }
 
             // Create the good number of step 
-            for (int i = 0; i < session.nbrOfStep; i++) {
-                steps[i] = CreateStep(i);
+            for (sbyte i = 0; i < sessionTraining.nbrOfStep; i++) {
+                stepsTraining[i] = CreateStep(i, true);
+            }
+
+            for (sbyte i = 0; i < sessionBlock.nbrOfStep; i++) {
+                stepsBlock[i] = CreateStep(i, false);
             }
 
             // Shuffle the list of steps
-            this.Shuffle(steps);
+            this.Shuffle(stepsTraining);
+            this.Shuffle(stepsBlock);
 
-            for (int i = 0; i < session.nbrOfStep; i++) {
-                StepStimulus s = steps[i];
+            for (sbyte i = 0; i < sessionTraining.nbrOfStep; i++) {
+                StepStimulus s = stepsTraining[i];
                 s.index = i;
-                buf.Add(s);
+                bufTraining.Add(s);
             }
-            
+
+            for (sbyte i = 0; i < sessionBlock.nbrOfStep; i++) {
+                StepStimulus s = stepsBlock[i];
+                s.index = i;
+                bufTBlock.Add(s);
+            }
+
             nbrFood.Dispose();
             nbrNonFood.Dispose();
         }
 
         // Create one step
-        private StepStimulus CreateStep(int i)
+        private StepStimulus CreateStep(int i, bool isTraining)
         {
             bool isFood = i % 2 == 0 ? true: false ; // Half food, half non-food
-            int newIndexImg = PickNumber(isFood); // Get the image for the food or non-food
+            sbyte newIndexImg = PickNumber(isFood); // Get the image for the food or non-food
+            sbyte nbrOfStopSignal = isTraining ? this.nbrOfStopSignalTraining : this.nbrOfStopSignalBlock;
 
             StepStimulus s = new StepStimulus {
                 //s.index = i;
                 indexImg = newIndexImg,
                 isFood = isFood,
-                isStopSignal = i < this.nbrOfStopSignal ? true : false, // Get the number of stop signal needed
+                isStopSignal = i < nbrOfStopSignal ? true : false, // Get the number of stop signal needed
                 ssd = Const.BASE_SSD,
                 timeEndStimulus = 0,
                 reactionTime = 0
@@ -177,9 +186,9 @@ namespace Assets.Scripts.Runtime
         }
 
         // Pick one number in the lists of food and non-food stimulus
-        protected int PickNumber(bool isFood)
+        protected sbyte PickNumber(bool isFood)
         {
-            int nbr = -1;
+            sbyte nbr = -1;
 
             if (isFood) {
                 int r = randomGenerator.NextInt(0, nbrFood.Length - 1);

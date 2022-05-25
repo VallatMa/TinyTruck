@@ -71,6 +71,12 @@ namespace Tiny2D
         public Entity F62;
         public Entity F63;
         public Entity F64;
+        public Entity F65;
+        public Entity F66;
+        public Entity F67;
+        public Entity F68;
+        public Entity F69;
+        public Entity F70;
 
         public Entity FN1;
         public Entity FN2;
@@ -136,5 +142,11 @@ namespace Tiny2D
         public Entity FN62;
         public Entity FN63;
         public Entity FN64;
+        public Entity FN65;
+        public Entity FN66;
+        public Entity FN67;
+        public Entity FN68;
+        public Entity FN69;
+        public Entity FN70;
     }
 }

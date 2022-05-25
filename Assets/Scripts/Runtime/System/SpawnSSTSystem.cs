@@ -6,7 +6,7 @@ using Unity.Tiny;
 
 namespace Assets.Scripts.Runtime
 {
-
+    // That system spawn the Stimulus and also handle the steps when they are missed (stop signal and non stop signal)
     public class SpawnSSTSystem : JobComponentSystem
     {
         private Random randomGenerator;
@@ -30,7 +30,8 @@ namespace Assets.Scripts.Runtime
             if (sstIterator.isRunning) {
 
                 if (sstIterator.isWaitingForClickOrTimeOut) {
-                    sstIterator.responseTimeStimulus -= Time.DeltaTime;
+                    sstIterator.responseTimeStimulus -= Time.DeltaTime; // Decrease the timing for the step
+
                     // If the step is answered or the timeout is done
                     if (sstIterator.responseTimeStimulus < 0 || sstIterator.actualStep.isAnswered) {
 
@@ -45,15 +46,29 @@ namespace Assets.Scripts.Runtime
 
                             // If it's a stop signal SUCCESS
                             if (sstIterator.actualStep.isStopSignal) {
-                                sstIterator.actualStep.isSuccess = true;
 
+                                Debug.Log("Avoid a stop signal");
                                 // Add the Ui Feedback OK
                                 EntityManager.AddComponent(feedbackTarget, typeof(FeedbackOKTag));
-
-                                session.actualSSD = StopSignalUtils.GetNextSSD(session, false);
                                 session.nbrOfTrue++;
+                                session.nbrOfTrueStop++;
+
+                                // Set the succes on the actual step
+                                sstIterator.actualStep.isSuccess = true;
+                                // Set to the step the ssd used
+                                sstIterator.actualStep.ssd = session.actualSSD;
+                                // Adjust timing of SSD
+                                float newSSD = StopSignalUtils.GetNextSSD(session, true);
+                                // Get the next SSD for the session
+                                session.actualSSD = newSSD;
+
                             } else { // Or a normal step FAILED
+
+                                // Set the succes on the actual step
                                 sstIterator.actualStep.isSuccess = false;
+                                // Set to the step the ssd used
+                                sstIterator.actualStep.ssd = session.actualSSD;
+
                                 // Add the Ui Feedback KO
                                 EntityManager.AddComponent(feedbackTarget, typeof(FeedbackKOTag));
                                 session.nbrOfFalse++;
@@ -67,14 +82,17 @@ namespace Assets.Scripts.Runtime
                         //float randomTimeToDelay = randomGenerator.NextFloat(Const.SPAWN_FORK) - Const.SPAWN_FORK / 2; // Add random time 
                         sstIterator.spawnTimeStimulus = Const.SPAWN_DELAY;// + randomTimeToDelay; // next spawning time
                     }
+
                 } else {
+
                     sstIterator.spawnTimeStimulus -= Time.DeltaTime;
+
                     // Spawne the next step
                     if (sstIterator.spawnTimeStimulus < 0) {
 
                         //Spawn the stimulus
                         sstIterator.actualStep.timeStartStimulus = (float)Time.ElapsedTime;
-                        Debug.Log("TIME: " + sstIterator.actualStep.timeStartStimulus + "/ Actual Step: " + sstIterator.actualStep.index + " isStop:" + sstIterator.actualStep.isStopSignal + ", Food?" + sstIterator.actualStep.isFood);// + ", IsFoodLeft?" + s.isFoodLeft);
+                        Debug.Log("TIME: " + sstIterator.actualStep.timeStartStimulus + "/ Actual Step: " + sstIterator.actualStep.index + " isStop:" + sstIterator.actualStep.isStopSignal + ", Food?" + sstIterator.actualStep.isFood + ", SSD: " + sstIterator.actualStep.ssd);// + ", IsFoodLeft?" + s.isFoodLeft);
 
                         // Set the timer for the response
                         sstIterator.responseTimeStimulus = Const.RESPONSE_DELAY;

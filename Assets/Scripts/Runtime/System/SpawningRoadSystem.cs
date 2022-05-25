@@ -1,4 +1,5 @@
-﻿using Unity.Entities;
+﻿using Assets.Scripts.Runtime.Component;
+using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Tiny;
 using Unity.Transforms;

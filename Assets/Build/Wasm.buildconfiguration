@@ -6,13 +6,13 @@
         {
             "$type": "Unity.Build.DotsRuntime.DotsRuntimeBuildProfile, Unity.Build.DotsRuntime",
             "Target": "wasm",
-            "Configuration": 2,
+            "Configuration": 3,
             "UseNewPipeline": false,
             "PipelineConstructor": null
         },
         {
             "$type": "Unity.Entities.Runtime.Build.DotsRuntimeBurstSettings, Unity.Entities.Runtime.Build",
-            "EnableBurst": true
+            "EnableBurst": false
         },
         {
             "$type": "Unity.Build.Web.DotsRuntime.WasmOutputSettings, Unity.Build.Web.DotsRuntime",
@@ -29,15 +29,15 @@
         {
             "$type": "Unity.Tiny.Rendering.Settings.TinyRenderingSettings, Unity.Tiny.Rendering.Authoring",
             "WindowSize": {
-                "x": 1080,
-                "y": 1920
+                "x": 540,
+                "y": 960
             },
             "RenderResolution": {
-                "x": 1080,
-                "y": 1920
+                "x": 540,
+                "y": 960
             },
             "RenderGraphMode": 1,
-            "MaxResolution": 2048,
+            "MaxResolution": 960,
             "AutoResizeFrame": true,
             "DisableVsync": false,
             "GPUSkinning": false
@@ -52,7 +52,15 @@
             "$type": "Unity.Build.Common.GeneralSettings, Unity.Build",
             "ProductName": "Tiny Truck",
             "CompanyName": "University Fribourg ",
-            "Version": "1.1.1.0"
+            "Version": "1.3.4.0"
+        },
+        {
+            "$type": "Unity.Build.Common.ScreenOrientations, Unity.Build",
+            "DefaultOrientation": 0,
+            "AllowAutoRotateToPortrait": true,
+            "AllowAutoRotateToReversePortrait": true,
+            "AllowAutoRotateToLandscape": false,
+            "AllowAutoRotateToReverseLandscape": false
         }
     ]
 }

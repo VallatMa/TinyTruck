@@ -40,21 +40,23 @@ namespace Assets.Scripts.Runtime
 
             if (sstIterator.isRunning) {
 
-                float timeEndStimulus = (float)Time.ElapsedTime;
-
                 int buttonId = ai.value.isButton;
-                if (buttonId != 0) {
+
+                if (buttonId != 0) { // if a click append
 
                     // Do the shake screen
                     EntityManager.AddComponent(shakeTarget, typeof(ActivatedTag));
 
+                    // If the game was awaiting the click, do more than just shaking the screen
                     if (sstIterator.isWaitingForClickOrTimeOut) {
 
-
+                        // Get the actual time of the end of the stimulus when the click append and store some value in the actual Step in the iterator
+                        float timeEndStimulus = (float)Time.ElapsedTime; 
                         sstIterator.actualStep.timeEndStimulus = timeEndStimulus;
                         sstIterator.actualStep.reactionTime = timeEndStimulus - sstIterator.actualStep.timeStartStimulus;
                         sstIterator.actualStep.isAnswered = true;
 
+                        // If the step is not a stop signal
                         if (!sstIterator.actualStep.isStopSignal) {
                             bool isLeft = buttonId == 1 ? true : false;
                             // Check if it's right
@@ -75,36 +77,36 @@ namespace Assets.Scripts.Runtime
 
                             // Adjust session right and wrong
                             if (sstIterator.actualStep.isSuccess) {
-
                                 // Show feedback
                                 EntityManager.AddComponent(feedbackTarget, typeof(FeedbackOKTag));
                                 session.nbrOfTrue++;
                             } else {
-
                                 // Show feedback
                                 EntityManager.AddComponent(feedbackTarget, typeof(FeedbackKOTag));
                                 session.nbrOfFalse++;
                             }
-                        } else {
-                            Debug.Log("Missed the step");
+
+                            // Set to the step the ssd used
+                            sstIterator.actualStep.ssd = session.actualSSD;
+
+                        } else { // If the step is a stop signal
+
+                            Debug.Log("Clicked on a stop signal");
                             sstIterator.actualStep.isSuccess = false;
-                            // Show feedback
-                            EntityManager.AddComponent(feedbackTarget, typeof(FeedbackKOTag));
+                            EntityManager.AddComponent(feedbackTarget, typeof(FeedbackKOTag));// Show feedback
                             session.nbrOfFalse++;
+                            session.nbrOfFalseStop++;
 
+                            // Set to the step the ssd used
+                            sstIterator.actualStep.ssd = session.actualSSD;
                             // Adjust timing of SSD
-                            if (sstIterator.actualStep.isStopSignal) {
-
-                                float newSSD = StopSignalUtils.GetNextSSD(session, false);
-                                // Set to the step the ssd used
-                                sstIterator.actualStep.ssd = newSSD;
-                                // Get the next SSD for the session
-                                session.actualSSD = newSSD;
-                            }
+                            float newSSD = StopSignalUtils.GetNextSSD(session, false);
+                            // Get the next SSD for the session
+                            session.actualSSD = newSSD;
                         }
                     }
 
-                    SetSingleton(new ActiveInput());
+                    SetSingleton(new ActiveInput()); // Reset the click
                     EntityManager.SetComponentData<SSTSession>(sstIterator.actualSessionEntity, session);
                     SetSingleton(sstIterator);
                 }
@@ -112,25 +114,6 @@ namespace Assets.Scripts.Runtime
 
             return inputDeps;
         }
-
-        /*public static void SSRTForActualStep(SSTSession s, StepStimulus step, DynamicBuffer<StepStimulus> steps)
-        {
-            float totalReactionTime = 0;
-            float totalSSD = 0;
-
-            for (int i = 0; i < s.activeStep; i++) {
-                totalReactionTime += steps[i].reactionTime;
-                totalSSD += steps[i].ssd;
-            }
-
-            float averageReactionTime = totalReactionTime / s.activeStep;
-            step.averageReactionTime = averageReactionTime;
-            float averageSSD = totalSSD / s.activeStep;
-
-            step.ssrt = averageSSD - averageReactionTime;
-            step.ssd = s.actualSSD;
-        }*/
-
     }
 
 

@@ -32,58 +32,92 @@ namespace Tiny2D
                 var sstHolder = GetSingleton<SSTHolder>();
                 var ecb = new EntityCommandBuffer(Allocator.Temp);
 
-                SceneName nextScene;
                 SSTSession actualSession = EntityManager.GetComponentData<SSTSession>(sstIterator.actualSessionEntity);
                 Debug.Log("[Next session] nbrOfStep: " + actualSession.nbrOfStep + " isFoodLeft: " + actualSession.isFoodLeft);
 
                 // Select the next instruction scene
-                if (actualSession.isFoodLeft) {
-                    if (actualSession.nbrOfStep == Const.NBR_STIMULUS_TRAINING) {
-                        nextScene = SceneName.InstTrainingFL;
-                    } else {
-                        nextScene = SceneName.InstGameFL;
-                    }
-                } else {
-                    if (actualSession.nbrOfStep == Const.NBR_STIMULUS_TRAINING) {
-                        nextScene = SceneName.InstTrainingFR;
-                    } else {
-                        nextScene = SceneName.InstGameFR;
-                    }
-                }
-
-                // Show the end scene
-                if (sstHolder.nbrSessionDone == 4)
-                    nextScene = SceneName.End;
-
                 Entities
                 .WithoutBurst()
                 .ForEach((Entity entity, in SceneManager sm) => {
                     switch (sm.CurrentSceneType) {
                         case SceneName.Menu:
-                            this.ChangeScene(ecb, nextScene, sceneManagerEntity);
+                            this.ChangeScene(ecb, SceneName.Story1, sceneManagerEntity);
                             break;
-                        case SceneName.InstTrainingFL:
-                            this.ChangeScene(ecb, SceneName.Gameplay, sceneManagerEntity);
-                            this.SetSessionRunning(sstIterator, true);
+                        case SceneName.Story1:
+                            if (actualSession.isFoodLeft) {
+                                this.ChangeScene(ecb, SceneName.InstructionL1, sceneManagerEntity);
+                            } else {
+                                this.ChangeScene(ecb, SceneName.InstructionR1, sceneManagerEntity);
+                            }
                             break;
-                        case SceneName.InstTrainingFR:
-                            this.ChangeScene(ecb, SceneName.Gameplay, sceneManagerEntity);
-                            this.SetSessionRunning(sstIterator, true);
+                        case SceneName.InstructionL1:
+                            this.ChangeScene(ecb, SceneName.InstructionLR, sceneManagerEntity);
                             break;
-                        case SceneName.InstGameFL:
-                            this.ChangeScene(ecb, SceneName.Gameplay, sceneManagerEntity);
-                            this.SetSessionRunning(sstIterator, true);
+                        case SceneName.InstructionR1:
+                            this.ChangeScene(ecb, SceneName.InstructionLR, sceneManagerEntity);
                             break;
-                        case SceneName.InstGameFR:
-                            this.ChangeScene(ecb, SceneName.Gameplay, sceneManagerEntity);
-                            this.SetSessionRunning(sstIterator, true);
+                        case SceneName.InstructionLR:
+                            if (actualSession.isFoodLeft) {
+                                this.ChangeScene(ecb, SceneName.GameStructure1L1, sceneManagerEntity);
+                            } else {
+                                this.ChangeScene(ecb, SceneName.GameStructure1R1, sceneManagerEntity);
+                            }
                             break;
-                    }
+                        case SceneName.Story2:
+                            if (actualSession.isFoodLeft) {
+                                this.ChangeScene(ecb, SceneName.InstructionL2, sceneManagerEntity);
+                            } else {
+                                this.ChangeScene(ecb, SceneName.InstructionR2, sceneManagerEntity);
+                            }
+                            break;
+                        case SceneName.InstructionL2:
+                            this.ChangeScene(ecb, SceneName.GameStructure2L1, sceneManagerEntity);
 
-                    // Button ID 5 is for changin from gameplay to something else
-                    if (buttonId == 5) {
-                        this.ChangeScene(ecb, nextScene, sceneManagerEntity);
-                        this.SetSessionRunning(sstIterator, false);
+                            break;
+                        case SceneName.InstructionR2:
+
+                            this.ChangeScene(ecb, SceneName.GameStructure2R1, sceneManagerEntity);
+                            break;
+                        case SceneName.Gameplay:
+                            if (sstHolder.nbrSessionDone == 1) {
+                                if (actualSession.isFoodLeft) {
+                                    this.ChangeScene(ecb, SceneName.GameStructure1L2, sceneManagerEntity);
+                                } else {
+                                    this.ChangeScene(ecb, SceneName.GameStructure1R2, sceneManagerEntity);
+                                }
+                            }
+
+                            if (sstHolder.nbrSessionDone == 2) {
+                                this.ChangeScene(ecb, SceneName.Story2, sceneManagerEntity);
+                            }
+
+                            if (sstHolder.nbrSessionDone == 3) {
+                                if (actualSession.isFoodLeft) {
+                                    this.ChangeScene(ecb, SceneName.GameStructure2L2, sceneManagerEntity);
+                                } else {
+                                    this.ChangeScene(ecb, SceneName.GameStructure2R2, sceneManagerEntity);
+                                }
+                            }
+
+                            if (sstHolder.nbrSessionDone == 4)
+                                this.ChangeScene(ecb, SceneName.End, sceneManagerEntity);
+                            break;
+
+                        case SceneName.GameStructure1L2:
+                        case SceneName.GameStructure2L2:
+                        case SceneName.GameStructure1R2:
+                        case SceneName.GameStructure2R2:
+                            this.ChangeScene(ecb, SceneName.InstructionFast, sceneManagerEntity); // New
+                            break;
+
+                        case SceneName.InstructionFast:
+                        case SceneName.GameStructure1L1:
+                        case SceneName.GameStructure2L1:
+                        case SceneName.GameStructure1R1:
+                        case SceneName.GameStructure2R1:
+                            this.ChangeScene(ecb, SceneName.Gameplay, sceneManagerEntity);
+                            this.SetSessionRunning(sstIterator, true);
+                            break;
                     }
 
                 }).Run();

@@ -36,6 +36,10 @@ namespace Assets.Scripts.Runtime
                 + @"""sessionName""" + ": " + (char)34 + sessionName + (char)34 + ", "
                 + @"""date""" + ": " + (char)34 + DateTime.Now.Day + "." + DateTime.Now.Month + "." + DateTime.Now.Year + (char)34 + ", "
                 + @"""isFoodLeft""" + ": " + ToStringUtils.GetBool(session.isFoodLeft) + ", "
+                + @"""nbrOfTrue""" + ": " + session.nbrOfTrue + ", "
+                + @"""nbrOfFalse""" + ": " + session.nbrOfFalse + ", "
+                + @"""nbrOfTrueStop""" + ": " + session.nbrOfTrueStop + ", "
+                + @"""nbrOfFalseStop""" + ": " + session.nbrOfFalseStop + ", "
                 + @"""steps""" + ": " + "[";
 
             for (int i = 0; i < steps.Length; i++) {

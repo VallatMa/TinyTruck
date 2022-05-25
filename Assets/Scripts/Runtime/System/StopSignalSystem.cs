@@ -32,7 +32,6 @@ namespace Assets.Scripts.Runtime
                     needSound = true;
                 }
 
-
                 if (sstIterator.isWaitingForClickOrTimeOut && sstIterator.actualStep.isStopSignal) {
 
                     SSTSession session = new SSTSession();
