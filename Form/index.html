@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Go Go Truck</title>
+		<meta charset="UTF-8">
+		<!-- Base CSS) -->
+		<link rel="stylesheet" href="css/style.css">
+		<!-- Bootstrap (necessary for Smoke CSS plugins) 
+		<link href="css/bootstrap.min.css" rel="stylesheet">-->
+		<!-- Smoke -->
+		<link href="css/smoke.min.css" rel="stylesheet">
+	</head>
+	<body>
+
+		<!-- multistep form -->
+		<div id="msform">
+		  <!-- progressbar -->
+		  <ul id="progressbar">
+			<li class="active">Willkommen</li>
+			<li>Code</li>
+			<li>Mini-Fragebogen</li>
+			<li>Tiny Truck</li>
+		  </ul>
+		  <!-- fieldsets -->
+		  <fieldset>
+			<h2 class="fs-title">Willkommen</h2>
+			<h3 class="fs-subtitle">Diese Seite wird Dir einen einzigartigen Code zuweisen. Je nachdem, an welchen anderen Studien unserer Arbeitsgruppe Du noch teilnimmst, verwenden wir den Code oder Deine E-Mail Adresse um Dich zu identifizieren. Damit Du Dich nicht mit dem langen Code beschäftigen musst, speichern wir den Code mit Hilfe eines <b>Cookies</b> auf Deinem Smartphone/iPhone.</h3>
+			<h3 class="fs-subtitle">Durch diese Form der Verschlüsselung können wir <b>Deine persönlichen Daten vertraulich</b> behandeln.</h3>
+			<h3 class="fs-subtitle">Auf der nächsten Seite wirst Du gebeten <b>persönliche Daten wie z.B. Deinen Namen anzugeben. Bis auf die Eingabe Deiner E-Mail Adresse werden diese Eingaben jedoch NICHT gespeichert.</b> Sie dienen ausschliessliche dem Erstellen des Codes. Es ist dennoch wichtig,dass Du <b>wahrheitsgetreu</b> antwortest, denn auch bei anderen Experimenten werden wir den Code erneut erstellen. So können wir Deine Angaben hier mit Deinen Angaben in anderen Studien unserer Arbeitsgruppe in Verbindung bringen. Wichtiger Hinweis: Es ist möglich mit Deinen persönlichen Angaben den Code zu erstellen. Andersherum können wir aus dem Code aber <b>NICHT</b> Deine persönlichen Angaben (z.B. Deinen Namen) herleiten. So schützen wir Deine Privatsphäre.</h3>
+			<h3 class="fs-subtitle">Indem Du auf „weiter“ klickst, akzeptierst Du, diese Bedingungen.</h3>
+			<input type="button" name="next" class="next action-button" value="Weiter" />
+		  </fieldset>
+		  <fieldset>
+			<h2 class="fs-title">Eingaben zum Erstellen des Identifiers</h2>
+			<h3 class="fs-subtitle">Bitte merke Dir, mit welcher E-Mail Adresse Du Dich hier anmeldest. Am besten notierst Du Dir, welche E-Mail Adresse Du für i-BEAT verwenden möchtest, z.B. mit Deiner Notizen-App auf dem Smartphone oder iPhone. Fülle das Formular <b>wahrheitsgetreu</b> aus.</h3>
+			<form id="formHash">
+				<div class="form-group">
+					<input type="text" class="form-control" id="name" name="name" placeholder="Vorname" required />
+				</div>
+				<div class="form-group">
+					<input type="text" class="form-control" id="surname" name="surname" placeholder="Nachname" required />
+				</div>
+				<div class="form-group">
+					<input type="email" class="form-control" id="email" name="email" placeholder="E-Mail Adresse" required />
+				</div>
+				<h3 class="fs-subtitle">Geburtsdatum</h3>
+				<div class="form-group">
+					<input type="date" class="form-control" name="dob" required>
+				</div>
+				<input type="button" name="previousForm" class="previousForm action-button" value="Zurück" />
+				<input type="button" name="nextFormHash" class="nextFormHash action-button" value="Weiter"/>
+			</form>
+		  </fieldset>
+		  <fieldset>
+			<h2 class="fs-title">Mini-Fragebogen</h2>
+			<form id="formFragen">
+				<div class="form-group">   
+					<h3 class="fs-subtitle">1) Wo befindest Du Dich aktuell?</h3>  
+					<input type="checkbox" class="checkbox" name="check_place" value="Hause">Zu Hause.<br>      
+					<input type="checkbox" class="checkbox" name="check_place" value="Esstisch">Am Esstisch während einer Hauptmahlzeit (z.B. Frühstück, Mittag- oder Abendessen).<br>      
+					<input type="checkbox" class="checkbox" name="check_place" value="Schule">In der Schule / Fachhochschule / Universität.<br> 
+					<input type="checkbox" class="checkbox" name="check_place" value="Arbeitsplatz">Am Arbeitsplatz.<br> 
+					<input type="checkbox" class="checkbox" name="check_place" value="Unterwegs">Unterwegs (z.B. Auto, Zug, Tram, zu Fuss).<br> 
+					<input type="checkbox" class="checkbox" name="check_place" value="Restaurant">Im Restaurant.<br> 
+					<input type="checkbox" class="checkbox" name="check_place" value="Einkaufen">Beim Einkaufen.<br> 
+					<input type="checkbox" class="checkbox" name="check_place" value="Besuch">Zu Besuch (z.B. bei Freund*innen / der Familie).<br> 
+					<input type="checkbox" class="checkbox" name="check_place" value="Andere">Andere: bitte angeben<br> 
+					<input type="text" class="form-control" id="name" name="name" placeholder="Deine Antwort" /><br>
+				</div>
+				<div class="form-group">
+					<h3 class="fs-subtitle">2) Bist Du Links- oder Rechtshänder*in?</h3>
+					<input type="checkbox" class="checkbox" name="check_hand" value="Links">Linkshänder*in.<br>      
+					<input type="checkbox" class="checkbox" name="check_hand" value="Recht">Rechtshänder*in.<br><br>
+				</div>
+				<div class="form-group">
+					<h3 class="fs-subtitle">3) Nimmst Du ADHS-Medikamente ein? </h3>  
+					<input type="checkbox" class="checkbox" name="check_medic" value="Nein">Nein.<br>      
+					<input type="checkbox" class="checkbox" name="check_medic" value="Ja">Ja.<br><br>   
+				</div>
+				<div class="form-group">
+					<h3 class="fs-subtitle">4) Welche/s ADHS Medikament/e nimmst Du ein?</h3>
+					<input type="text" class="form-control" id="input_medic" name="input_medic" placeholder="Deine Antwort"/>
+				</div>
+				<div class="form-group">
+					<h3 class="fs-subtitle">5) Wann hast Du das/die ADHS Medikament/e heute zuletzt eingenommen?</h3>
+					<input type="time" class="form-control" id="time_medic" name="time_medic" placeholder="hh:mm"/>
+				</div>
+				<input type="button" name="previousForm" class="previousForm action-button" value="Zurück" />
+				<input type="button" name="nextFormFragen" class="nextFormFragen action-button" value="Weiter" />
+			</form>
+		  </fieldset>
+		  <fieldset>
+			<h2 class="fs-title">Tiny Truck</h2>
+			<h3 class="fs-subtitle">Du hast Deinen Code erstellt und den Mini-Fragebogen beantwortet, danke dafür!</h3>
+			<h3 class="fs-subtitle">Stelle nun die maximale (Medien-)Lautstärke auf Deinem Smartphone / iPhone ein.</h3>
+			<h3 class="fs-subtitle">Jetzt leiten wir Dich zum Spiel <b>Tiny Truck</b> weiter. Während des Spieles erfassen wir Deine Reaktionszeiten. Diese geben Aufschluss über Deine Impulsregulationsfertigkeiten.</h3>
+			<h3 class="fs-subtitle">Versuche <b>während des Spieles so schnell wie möglich</b> zu sein!</h3>
+			<input type="button" name="previous" class="previous action-button" value="Zurück" />
+			<input type="submit" name="submit" class="submit action-button" value="Zum Spiel" />
+		  </fieldset>
+		</div>			
+
+	</body>
+	
+	<!-- JS Libs -->
+	<!-- SHA lib -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js" integrity="sha512-szJ5FSo9hEmXXe7b5AUVtn/WnL8a5VofnFeYC2i2z03uS2LhAch7ewNLbl5flsEmTTimMN0enBZg/3sQ+YOSzQ==" crossorigin="anonymous"></script>
+	
+	<!-- Cookie lib-->
+	<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+	
+	<!-- Jquery and Jquery UI -->
+	<script
+	  src="https://code.jquery.com/jquery-3.5.1.min.js"
+	  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+	  crossorigin="anonymous"></script>
+	<script
+	  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+	  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+	  crossorigin="anonymous"></script>
+	  
+	<!-- Bootstrap (necessary for Smoke JavaScript plugins) -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Smoke -->
+    <script src="js/smoke.min.js"></script>
+	<!-- Language -->
+	<script src="lang/de.min.js"></script>
+	
+	<!-- Main script -->
+	<script src="js/script.js"></script>
+
+  
+</html>
