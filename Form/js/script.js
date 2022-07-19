@@ -113,11 +113,18 @@ $(".submit").click(function(){
 	var name = document.getElementById("name").value.toLowerCase();
 	var surname = document.getElementById("surname").value.toLowerCase();
 	var email = document.getElementById("email").value;
-	var date = new Date($('#dob').val());
+	var dateOfBirth = new Date($('#dob').val());
+	var date = new Date();
+	var minutes = date.getMinutes();
+	var hours = date.getHours();
 	var day = date.getDate();
 	var month = date.getMonth() + 1;
 	var year = date.getFullYear();
-	var hash = sha256.update(name + "-" + surname + "-" + year);
+	
+	var datetime = year + "-" + month + "-" + day + "-" + hours + "-" + minutes;
+	var hash = sha256.update(name + "-" + surname + "-" + dateOfBirth.getFullYear());
+
+	var fname =  datetime + '_' + hash + ".json"; // Get the file by name the file name
 	
 	var place = getSelectedCheckboxValues("check_place");
 	var hand = getSelectedCheckboxValues("check_hand");
@@ -132,6 +139,8 @@ $(".submit").click(function(){
 	Cookies.set('medic', medic, { expires: 7 });
 	Cookies.set('medicType', medicType, { expires: 7 });
 	Cookies.set('medicTime', medicTime, { expires: 7 });
+	Cookies.set('fileName', fname, { expires: 7 });
+	
 	
 	jQuery.ajax({
 		type: "POST",
