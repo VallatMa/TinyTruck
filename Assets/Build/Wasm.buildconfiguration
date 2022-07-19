@@ -52,7 +52,7 @@
             "$type": "Unity.Build.Common.GeneralSettings, Unity.Build",
             "ProductName": "Tiny Truck",
             "CompanyName": "University Fribourg ",
-            "Version": "1.3.4.0"
+            "Version": "1.3.5.0"
         },
         {
             "$type": "Unity.Build.Common.ScreenOrientations, Unity.Build",
