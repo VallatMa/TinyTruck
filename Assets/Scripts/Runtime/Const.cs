@@ -8,7 +8,7 @@ namespace Assets.Scripts.Runtime
         public static float RESPONSE_DELAY = 1.5f;
         public static float STEP_SSD = 0.05f;
         public static float BASE_SSD = 0.25f;
-        public static float MIN_SSD = 0.1f;
+        public static float MIN_SSD = 0.0f;
         public static float MAX_SSD = 1.45f;
 
         public static float MODIFIED_SST = 0.25f;
