@@ -7,8 +7,7 @@
 	$medic = $_COOKIE['medic']; 
 	$medicType = $_COOKIE['medicType']; 
 	$medicTime = $_COOKIE['medicTime'];
-	$date = date("Y-m-d"); 
-	$timeDate = date("Y-m-d H:i:s"); 
+	$fname = $_COOKIE['fileName'];
 	
 	$data['id'] = $id;
 	$data['email'] = $email;
@@ -22,7 +21,6 @@
 	
 	$dataJSON = json_encode($data);
 	
-	$fname =  $date . '-' . $id . ".json"; // generates the file name
 	$file = fopen("Traces/" . $fname, 'w'); // creates new file
 	
 	fwrite($file, $dataJSON); // save it
